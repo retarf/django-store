@@ -5,11 +5,10 @@ from .models import Product
 
 class IndexView(generic.ListView):
     template_name = 'products/index.html'
-    module = Product
 
     def get_queryset(self):
         return Product.objects.all()
 
 class DetailView(generic.DetailView):
     template_name = 'products/detail.html'
-    module = Product
+    model = Product
