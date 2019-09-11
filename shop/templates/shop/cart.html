@@ -6,10 +6,10 @@
     <th>Price:</th>
     <th>Value:</th>
   </tr>
-  {% for product in cart.products.all %}
+  {% for product in cart.item.all %}
   <tr>
       <td>{{ product.name }}</td>
-      <td>Quantity</td>
+      <td>{{ product.quantity }}</td>
       <td>{{ product.price }}</td>
       <td>Value</td>
   </tr>
