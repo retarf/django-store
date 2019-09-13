@@ -2,6 +2,6 @@
 <p>{{ product.description }}</p>
 <h3>{{ product.price }}</h3>
 
-<form action="{% url 'shop:add' product.id %}" />
+<form action="{% url 'cart:add' product.id %}" />
     <input type="submit" value="Add to Cart" />
 </form>

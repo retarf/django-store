@@ -1,0 +1,19 @@
+<h1> {{ cart.user }} </h1>
+ <table style="width:100%">
+  <tr>
+    <th>Name:</th>
+    <th>Quantity:</th>
+    <th>Price:</th>
+    <th>Value:</th>
+  </tr>
+  {% for item in cart.item.all %}
+  <tr>
+      <td>{{ item.product.name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.product.price }}</td>
+      <td>{{ item.value }}</td>
+  </tr>
+  {% endfor %}
+
+  <h3><a href="{% url 'cart:send' %}">Send order</a></h3>
+</table> 
