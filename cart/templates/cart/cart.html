@@ -14,6 +14,7 @@
       <td>{{ item.value }}</td>
   </tr>
   {% endfor %}
-
-  <h3><a href="{% url 'cart:send' %}">Send order</a></h3>
 </table> 
+
+<h3><a href="{% url 'cart:send' %}">Send order</a></h3>
+<a href="{% url 'products:index' %}">Continue shopping</a>
