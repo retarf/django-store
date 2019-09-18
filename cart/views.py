@@ -22,26 +22,39 @@ def index(request):
 
     return render(request, template, content)
 
-def add(request, product_id):
-
-    user = User.objects.get(username=request.user)
-    try:
-        cart = Cart.objects.get(user=user)
-    except Cart.DoesNotExist:
-        cart = Cart()
-        cart.user = user
-        cart.save()
+@login_required
+def detail(request, product_id):
 
     product = Product.objects.get(pk=product_id)
+    if request.method == 'POST':
+        form = CartItemForm(request.POST)
+        if form.is_valid():
 
-    item = CartItem()
-    item.product = product
-    item.quantity = 1
-    item.save()
+            user = User.objects.get(username=request.user)
+            try:
+                cart = Cart.objects.get(user=user)
+            except Cart.DoesNotExist:
+                cart = Cart()
+                cart.user = user
+                cart.save()
 
-    cart.item.add(item)
+            #product_id = request.cleaned_data['product_id']
 
-    return redirect('products:index')
+            product = Product.objects.get(pk=product_id)
+
+            item = CartItem()
+            item.product = product
+            item.quantity = request.cleaned_data['quantity']
+            item.save()
+
+            cart.item.add(item)
+
+            return redirect('products:index')
+
+    else:
+        form = CartItemForm()
+    
+
 
 @login_required
 def send(request):
