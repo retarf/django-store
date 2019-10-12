@@ -2,9 +2,17 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import generics
+from rest_framework import mixins
+
 from .models import Cart, CartItem
 from products.models import Product
 from shop.models import Order
+
+from .serializers import CartItemSerializer
 
 @login_required
 def index(request):
@@ -21,6 +29,39 @@ def index(request):
     template = 'cart/cart.html'
 
     return render(request, template, content)
+
+def cart_item_queryset(user):
+        try:
+            cart = Cart.objects.get(user=user)
+        except Cart.DoesNotExist:
+            cart = Cart()
+            cart.user = request.user
+            cart.save()
+
+        return cart.item.all()
+
+class CartItemList(mixins.ListModelMixin,
+                   mixins.CreateModelMixin,
+                   generics.GenericAPIView):
+
+    def queryset(self):
+        return cart_item_queryset(self.request.user)
+
+    serializer_class = CartItemSerializer
+
+    def get(self, request, *args, **kwargs):
+        serializer = CartItemSerializer(self.queryset(), many=True)
+        return Response(data=serializer.data)
+
+            #class CartItemList(generics.ListCreateAPIView):
+            #
+            #    def queryset(self):
+            #        return cart_item_queryset(self.request.user)
+            #
+            #    serializer_class = CartItemSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 @login_required
 def detail(request, product_id):

@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'products.apps.ProductsConfig',
