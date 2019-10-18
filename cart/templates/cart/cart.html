@@ -1,4 +1,4 @@
-<h1> {{ cart.user }} </h1>
+<h1> {{ user }} </h1>
  <table style="width:100%">
   <tr>
     <th>Name:</th>
@@ -6,7 +6,7 @@
     <th>Price:</th>
     <th>Value:</th>
   </tr>
-  {% for item in cart.item.all %}
+  {% for item in items %}
   <tr>
       <td>{{ item.product.name }}</td>
       <td>{{ item.quantity }}</td>
